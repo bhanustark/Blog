@@ -9,3 +9,6 @@ export default async function (app: Elysia) {
      app.get("/category/news/:category", viewController.category)
      return app
 }
+
+
+console.log("nothing")
