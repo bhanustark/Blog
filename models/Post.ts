@@ -10,9 +10,16 @@ const PostSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    keywords: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
     categories: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category"
+        ref: "Category",
+        index: true
     }],
     content: {
         type: String,
@@ -25,6 +32,7 @@ const PostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "User",
+        index: true
     }
 }, {
     timestamps: true

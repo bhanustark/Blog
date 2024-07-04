@@ -1,4 +1,5 @@
 import { postPerPage } from "../constant";
+import { Category } from "../models/Category";
 import { Post } from "../models/Post"
 import homePage from "../views/homePage";
 import layout from "../views/layout";
@@ -12,16 +13,26 @@ export default {
     },
     page: async ({ params: { pageNumber } }: { params: { pageNumber: string } }) => {
         if (pageNumber) {
-            const posts = await Post.find().sort({'updatedAt': -1}).limit(postPerPage).skip(postPerPage * Number(pageNumber))
+            const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
             const Component = homePage(posts, pageNumber)
             return layout(`Public App - Page ${pageNumber}`, "Nothing", Component)
         } else {
             throw new Error("Page number is missing")
         }
     },
-    category: async ({ params: { category } }: { params: { category: string } }) => {
-        if(category) {
-
+    category: async ({ params: { category, pageNumber } }: { params: { category: string, pageNumber: string } }) => {
+        pageNumber = pageNumber ? pageNumber : "0";
+        if (category) {
+            const categoryObject = await Category.findOne({ slug: category });
+            if (categoryObject) {
+                const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
+                const Component = homePage(posts, pageNumber)
+                return layout(`Public App - Page ${pageNumber}`, "Nothing", Component)
+            } else {
+                throw new Error("wrong category id")
+            }
+        } else {
+            throw new Error("category is missing")
         }
     },
     post: async ({ params: { slug } }: { params: { slug: string } }) => {
