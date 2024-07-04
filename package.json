@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run index.tsx"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@elysiajs/html": "^1.0.2",
+    "bcrypt": "^5.1.1",
+    "ejs": "^3.1.10",
+    "elysia": "^1.0.27",
+    "mongoose": "^8.4.4",
+    "xml2js": "^0.6.2"
+  }
+}
