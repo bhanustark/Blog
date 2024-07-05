@@ -26,8 +26,8 @@ export default {
             const categoryObject = await Category.findOne({ slug: category });
             if (categoryObject) {
                 const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
-                const Component = homePage(posts, pageNumber)
-                return layout(`Public App - Page ${pageNumber}`, "Nothing", Component)
+                const Component = homePage(posts, pageNumber, categoryObject)
+                return layout(`Public App - ${categoryObject.title}`, "Nothing", Component)
             } else {
                 throw new Error("wrong category id")
             }

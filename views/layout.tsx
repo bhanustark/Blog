@@ -42,7 +42,7 @@ const layout = (title, description, Component) => (
                             tabindex={0}
                             class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             {categories.map(category => (
-                                <li><a href={`/category/news/${category.slug}/`}>{category.title}</a></li>
+                                <li><a href={`/category/${category.slug}/`}>{category.title}</a></li>
                             ))}
                         </ul>
                     </div>
@@ -51,7 +51,7 @@ const layout = (title, description, Component) => (
                 <div class="navbar-center hidden 2xl:flex">
                     <ul class="menu menu-horizontal px-1">
                         {categories.map(category => (
-                            <li><a href={`/category/news/${category.slug}/`}>{category.title}</a></li>
+                            <li><a href={`/category/${category.slug}/`}>{category.title}</a></li>
                         ))}
                     </ul>
                 </div>
