@@ -1,9 +1,4 @@
 import * as mongoose from "mongoose"
-import userController from "./controllers/userController";
-import postController from "./controllers/postController";
-import postRoutes from "./routes/postRoutes";
-import userRoutes from "./routes/userRoutes";
-import viewController from "./controllers/viewController";
 import { Elysia, t } from 'elysia';
 import { html } from "@elysiajs/html";
 import viewRoutes from "./routes/viewRoutes";
