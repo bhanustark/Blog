@@ -36,7 +36,7 @@ const Navbar = () => (
             </ul>
         </div>
         <div class="navbar-end">
-            <button className="btn">About</button>
+            {/* <button className="btn">About</button> */}
         </div>
     </div>
 )
