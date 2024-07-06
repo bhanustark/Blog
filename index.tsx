@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose"
 import { Elysia, t } from 'elysia';
 import { html } from "@elysiajs/html";
+import { staticPlugin } from '@elysiajs/static'
 import viewRoutes from "./routes/viewRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 const app = new Elysia();
@@ -8,6 +9,7 @@ const app = new Elysia();
 const PORT = process.env.PORT || 3000;
 
 app.use(html())
+app.use(staticPlugin())
 
 try {
     await mongoose.connect(Bun.env.MONGO_URI);

@@ -19,7 +19,7 @@ const homePage = (posts, pageNumber, category) => {
                                     height={300}
                                     width={400}
                                     class="h-60 w-[100%]"
-                                    src={post?.image}
+                                    src={post?.image ? post?.image : "/public/default.webp"}
                                     alt={post?.title} />
                             </figure>
                             <div class="card-body">

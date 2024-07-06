@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@elysiajs/html": "^1.0.2",
+    "@elysiajs/static": "^1.0.3",
     "bcrypt": "^5.1.1",
     "ejs": "^3.1.10",
     "elysia": "^1.0.27",
