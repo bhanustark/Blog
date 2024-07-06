@@ -1,3 +1,5 @@
+const { APP_NAME } = Bun.env;
+
 const Footer = () => (
     <footer className="footer footer-center rounded p-10">
         {/* <nav className="grid grid-flow-col gap-4">
@@ -44,7 +46,7 @@ const Footer = () => (
             </div>
         </nav> */}
         <aside>
-            <p>Copyright © ${new Date().getFullYear()} - All right reserved by Public App</p>
+            <p>Copyright © {new Date().getFullYear()} - All right reserved by {APP_NAME}</p>
         </aside>
     </footer>
 )

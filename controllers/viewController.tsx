@@ -5,17 +5,19 @@ import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
 import PostPage from "../views/PostPage";
 
+const { APP_NAME } = Bun.env;
+
 export default {
     home: async () => {
         const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage);
         const Component = await HomePage(posts)
-        return layout("Public App", "Nothing", Component)
+        return layout(APP_NAME, "Nothing", Component)
     },
     page: async ({ params: { pageNumber } }: { params: { pageNumber: string } }) => {
         if (pageNumber) {
             const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
             const Component = await HomePage(posts, pageNumber)
-            return layout(`Public App - Page ${pageNumber}`, "Nothing", Component)
+            return layout(`${APP_NAME} - Page ${pageNumber}`, "Nothing", Component)
         } else {
             throw new Error("Page number is missing")
         }
@@ -27,7 +29,7 @@ export default {
             if (categoryObject) {
                 const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
                 const Component = await HomePage(posts, pageNumber, categoryObject)
-                return layout(`Public App - ${categoryObject.title}`, "Nothing", Component)
+                return layout(`${APP_NAME} - ${categoryObject.title}`, "Nothing", Component)
             } else {
                 throw new Error("wrong category id")
             }

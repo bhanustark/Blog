@@ -4,6 +4,7 @@ Create .env file in project root directory and add mongo uri and secret
 PORT, ANDROID_APP_ID, ANDROID_APP_SHA256, MONGO_URI_DEV fields are optional
 
 ```bash
+APP_NAME=Public App
 PORT=3000
 MONGO_URI='mongodb://127.0.0.1:27017/something?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.10'
 MONGO_URI_DEV='mongodb://127.0.0.1:27017/something_dev?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.10'

@@ -6,6 +6,14 @@ const style = `
         margin-top: 10px !important;
         margin-bottom: 10px !important;
     }
+    .truncateText {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+                line-clamp: 2 !important; 
+        -webkit-box-orient: vertical !important;
+    }
 `
 const Layout = (title: string | undefined, description: string | undefined | null, Component: string) => (
     <html lang="en">

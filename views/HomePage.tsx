@@ -1,3 +1,4 @@
+import { defaultPostImage } from "../constant"
 import type { Category } from "../models/Category"
 import type { Post } from "../models/Post"
 
@@ -16,17 +17,18 @@ const HomePage = (posts: Post[], pageNumber?: string, category?: Category) => {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: "20px", marginTop: "20px" }}>
                 {posts?.map(post => (
                     <a href={`/${post?.slug}`}>
-                        <div class="card card-compact bg-base-100 w-96 h-96 shadow-xl">
+                        <div class="card card-compact bg-base-100 w-auto max-w-96 h-96 shadow-xl">
                             <figure>
                                 <img
                                     height={300}
                                     width={400}
                                     class="h-60 w-[100%]"
-                                    src={post?.image ? post?.image : "/public/default.webp"}
+                                    src={post?.image ? post?.image : defaultPostImage}
                                     alt={post?.title} />
                             </figure>
                             <div class="card-body">
-                                <h2 class="card-title">{(post?.title?.length > 100) ? post?.title?.slice(0, 100 - 1) + '&hellip;' : post?.title}</h2>
+                                <h2 class="card-title text-lg truncateText">{post?.title}</h2>
+                                <p>Posted on {new Date(post.createdAt).toLocaleDateString()}</p>
                             </div>
                         </div>
                     </a>

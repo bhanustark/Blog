@@ -1,4 +1,6 @@
-import { categories } from "../constant"
+import { categories } from "../constant";
+
+const { APP_NAME } = Bun.env;
 
 const Navbar = () => (
     <div class="navbar bg-base-100">
@@ -26,7 +28,7 @@ const Navbar = () => (
                     ))}
                 </ul>
             </div>
-            <a href="/" class="btn btn-ghost text-xl">Public App</a>
+            <a href="/" class="btn btn-ghost text-xl">{APP_NAME}</a>
         </div>
         <div class="navbar-center hidden 2xl:flex">
             <ul class="menu menu-horizontal px-1">

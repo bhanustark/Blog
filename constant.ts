@@ -52,3 +52,5 @@ export const categories = [
 ]
 
 export const postPerPage = 10
+
+export const defaultPostImage = "/public/default.webp"
