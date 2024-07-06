@@ -7,12 +7,13 @@ const style = `
         margin-bottom: 10px !important;
     }
 `
-const Layout = (title, description, Component) => (
+const Layout = (title: string | undefined, description: string | undefined | null, Component: string) => (
     <html lang="en">
         <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>{title}</title>
+            {description ? <meta name="description" content={description} /> : <></>}
             <link
                 href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css"
                 rel="stylesheet"

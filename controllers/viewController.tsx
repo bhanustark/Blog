@@ -3,18 +3,18 @@ import { Category } from "../models/Category";
 import { Post } from "../models/Post"
 import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
-import postPage from "../views/PostPage";
+import PostPage from "../views/PostPage";
 
 export default {
     home: async () => {
         const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage);
-        const Component = HomePage(posts)
+        const Component = await HomePage(posts)
         return layout("Public App", "Nothing", Component)
     },
     page: async ({ params: { pageNumber } }: { params: { pageNumber: string } }) => {
         if (pageNumber) {
             const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
-            const Component = HomePage(posts, pageNumber)
+            const Component = await HomePage(posts, pageNumber)
             return layout(`Public App - Page ${pageNumber}`, "Nothing", Component)
         } else {
             throw new Error("Page number is missing")
@@ -26,7 +26,7 @@ export default {
             const categoryObject = await Category.findOne({ slug: category });
             if (categoryObject) {
                 const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
-                const Component = HomePage(posts, pageNumber, categoryObject)
+                const Component = await HomePage(posts, pageNumber, categoryObject)
                 return layout(`Public App - ${categoryObject.title}`, "Nothing", Component)
             } else {
                 throw new Error("wrong category id")
@@ -37,7 +37,11 @@ export default {
     },
     post: async ({ params: { slug } }: { params: { slug: string } }) => {
         const post = await Post.findOne({ slug })
-        const Component = postPage(post)
-        return layout(post?.title, post?.description, Component)
+        if (post) {
+            const Component = await PostPage(post)
+            return layout(post?.title, post?.description, Component)
+        } else {
+            throw new Error("post not found")
+        }
     }
 }

@@ -4,19 +4,29 @@ import { html } from "@elysiajs/html";
 import { staticPlugin } from '@elysiajs/static'
 import viewRoutes from "./routes/viewRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
+import postRoutes from "./routes/postRoutes";
 const app = new Elysia();
-
-const PORT = process.env.PORT || 3000;
+const { MONGO_URI, MONGO_URI_DEV } = Bun.env
+const PORT = Bun.env.PORT || 3000;
 
 app.use(html())
 app.use(staticPlugin())
 
 try {
-    await mongoose.connect(Bun.env.MONGO_URI);
+    if (MONGO_URI) {
+        await mongoose.connect(MONGO_URI);
+    } else {
+        throw new Error("MONGO_URI not defined in .env")
+    }
 } catch (error) {
-    await mongoose.connect(Bun.env.MONGO_URI_DEV);
+    if (MONGO_URI_DEV) {
+        await mongoose.connect(MONGO_URI_DEV);
+    } else {
+        throw new Error("MONGO_URI_DEV not defined in .env")
+    }
 }
 
+app.use(postRoutes)
 app.use(categoryRoutes)
 app.use(viewRoutes)
 

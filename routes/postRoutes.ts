@@ -1,6 +1,8 @@
+import type Elysia from "elysia";
 import postController from "../controllers/postController";
 
-export default {
-    add: postController.addPost,
-    get: postController.getPostsPaginated
+export default async function (app: Elysia) {
+    app.post("/api/post/add", postController.addPost)
+    app.get("/api/post/get", postController.getPostsPaginated)
+    return app
 }

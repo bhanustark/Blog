@@ -1,6 +1,6 @@
 import type Elysia from "elysia";
 import viewController from "../controllers/viewController";
-const { ANDROID_APP_ID, ANDROID_APP_SHA256 } = process.env
+const { ANDROID_APP_ID, ANDROID_APP_SHA256 } = Bun.env
 export default async function (app: Elysia) {
      if (ANDROID_APP_ID && ANDROID_APP_SHA256) {
           app.get("/.well-known/assetlinks.json", () => (

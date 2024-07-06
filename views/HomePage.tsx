@@ -1,9 +1,12 @@
-const HomePage = (posts, pageNumber, category) => {
+import type { Category } from "../models/Category"
+import type { Post } from "../models/Post"
+
+const HomePage = (posts: Post[], pageNumber?: string, category?: Category) => {
     const prevPageLink = `/page/${Number(pageNumber) - 1}`
     const nextPageLink = `/page/${(Number(pageNumber) || 0) + 1}`
     const currentPageTitle = `Page ${Number(pageNumber) || 0}`
     let prevPageLinkCategory, nextPageLinkCategory
-    if(category) {
+    if (category) {
         const categoryPrefix = `/category/${category.slug}`
         prevPageLinkCategory = categoryPrefix + prevPageLink
         nextPageLinkCategory = categoryPrefix + nextPageLink

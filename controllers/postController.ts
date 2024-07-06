@@ -1,20 +1,21 @@
 import { Post } from "../models/Post";
+import type { Post as PostType } from "../models/Post";
 
 export default {
-    addPost: async (req: Request) => {
-        const { title, content, categories, slug, image, author } = await req.json()
+    addPost: async ({ body }: { body: PostType }) => {
+        const { title, content, categories, slug, image, author } = body;
         if (title && content && categories && slug && image && author) {
             const post = new Post({
                 title, content, categories, slug, image, author
             })
             await post.save()
-            return new Response(JSON.stringify(post))
+            return post
         } else {
-            return new Response("All fields are required")
+            throw new Error("All fields are required")
         }
     },
-    getPostsPaginated: async (req: Request) => {
+    getPostsPaginated: async () => {
         const posts = await Post.find().limit(10)
-        return new Response("posts" + posts)
+        return posts
     },
 }
