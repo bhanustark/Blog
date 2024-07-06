@@ -7,7 +7,7 @@ const style = `
         margin-bottom: 10px !important;
     }
 `
-const layout = (title, description, Component) => (
+const Layout = (title, description, Component) => (
     <html lang="en">
         <head>
             <meta charset="UTF-8" />
@@ -29,4 +29,4 @@ const layout = (title, description, Component) => (
     </html>
 )
 
-export default layout
+export default Layout

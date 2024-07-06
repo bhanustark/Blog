@@ -1,4 +1,4 @@
-const homePage = (posts, pageNumber, category) => {
+const HomePage = (posts, pageNumber, category) => {
     const prevPageLink = `/page/${Number(pageNumber) - 1}`
     const nextPageLink = `/page/${(Number(pageNumber) || 0) + 1}`
     const currentPageTitle = `Page ${Number(pageNumber) || 0}`
@@ -41,4 +41,4 @@ const homePage = (posts, pageNumber, category) => {
     )
 }
 
-export default homePage
+export default HomePage

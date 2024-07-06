@@ -1,4 +1,4 @@
-export default function postPage(post) {
+export default function PostPage(post) {
     return (
         <div class="flex justify-center items-center flex-col">
             <img src={post?.image} alt={post?.title} class="object-cover max-w-5xl w-full rounded-lg" />
