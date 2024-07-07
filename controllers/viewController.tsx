@@ -1,4 +1,5 @@
 import { postPerPage } from "../constant";
+import type { ISEOMeta } from "../interfaces/SEOInterfaces";
 import { Category } from "../models/Category";
 import { Post } from "../models/Post"
 import HomePage from "../views/HomePage";
@@ -11,13 +12,19 @@ export default {
     home: async () => {
         const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage);
         const Component = await HomePage(posts)
-        return layout(APP_NAME, "Nothing", Component)
+        const seo_meta: ISEOMeta = {
+            title: APP_NAME,
+        }
+        return layout(seo_meta, Component)
     },
     page: async ({ params: { pageNumber } }: { params: { pageNumber: string } }) => {
         if (pageNumber) {
             const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
             const Component = await HomePage(posts, pageNumber)
-            return layout(`${APP_NAME} - Page ${pageNumber}`, "Nothing", Component)
+            const seo_meta: ISEOMeta = {
+                title: `${APP_NAME} - Page ${pageNumber}`,
+            }
+            return layout(seo_meta, Component)
         } else {
             throw new Error("Page number is missing")
         }
@@ -29,7 +36,10 @@ export default {
             if (categoryObject) {
                 const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
                 const Component = await HomePage(posts, pageNumber, categoryObject)
-                return layout(`${APP_NAME} - ${categoryObject.title}`, "Nothing", Component)
+                const seo_meta: ISEOMeta = {
+                    title: `${APP_NAME} - ${categoryObject.title}`,
+                }
+                return layout(seo_meta, Component)
             } else {
                 throw new Error("wrong category id")
             }
@@ -41,7 +51,12 @@ export default {
         const post = await Post.findOne({ slug })
         if (post) {
             const Component = await PostPage(post)
-            return layout(post?.title, post?.description, Component)
+            const seo_meta: ISEOMeta = {
+                title: post?.title,
+                description: post?.description,
+                keywords: post?.keywords
+            }
+            return layout(seo_meta, Component)
         } else {
             throw new Error("post not found")
         }

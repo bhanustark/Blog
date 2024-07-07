@@ -2,9 +2,11 @@ import type Elysia from "elysia"
 import userController from "../controllers/userController"
 import userRoutesSchemas from "../routesSchemas/userRoutesSchemas"
 
+const userRoutePath = "/api/user/"
+
 export default async function (app: Elysia) {
-    app.post("/api/user/signup", userController.signup, userRoutesSchemas.addUserRouteSchema)
-    app.post("/api/user/login", userController.login, userRoutesSchemas.loginUserRouteSchema)
-    app.get("/api/user/getUserById/:userId", userController.getUserById)
+    app.post(`${userRoutePath}signup`, userController.signup, userRoutesSchemas.signUpUserRouteSchema)
+    app.post(`${userRoutePath}login`, userController.login, userRoutesSchemas.loginUserRouteSchema)
+    app.get(`${userRoutePath}:userId`, userController.getUserById, userRoutesSchemas.getUserRouteSchema)
     return app
 }

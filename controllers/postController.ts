@@ -2,17 +2,14 @@ import { Post } from "../models/Post";
 import type { Post as PostType } from "../models/Post";
 
 export default {
-    addPost: async ({ body }: { body: PostType }) => {
-        const { title, content, categories, slug, image, author } = body;
-        if (title && content && categories && slug && image && author) {
-            const post = new Post({
-                title, content, categories, slug, image, author
-            })
-            await post.save()
-            return post
-        } else {
-            throw new Error("All fields are required")
-        }
+    addPost: async ({ jwt, body }: { jwt: any, body: PostType }) => {
+        const { title, description, keywords, content, categories, slug, image } = body;
+        const authorId = jwt.user._id
+        const post = new Post({
+            title, content, categories, slug, image, author: authorId, description, keywords
+        })
+        await post.save()
+        return post
     },
     getPostsPaginated: async () => {
         const posts = await Post.find().limit(10)

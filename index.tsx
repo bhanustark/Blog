@@ -5,10 +5,33 @@ import { staticPlugin } from '@elysiajs/static'
 import viewRoutes from "./routes/viewRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 import postRoutes from "./routes/postRoutes";
+import { swagger } from '@elysiajs/swagger'
+import userRoutes from "./routes/userRoutes";
+import { jwt } from '@elysiajs/jwt'
+import { DOCUMENTATION_TAGS } from "./constant";
+
 const app = new Elysia();
-const { MONGO_URI, MONGO_URI_DEV } = Bun.env
+const { SECRET, MONGO_URI, MONGO_URI_DEV } = Bun.env
 const PORT = Bun.env.PORT || 3000;
 
+if (!SECRET) {
+    throw new Error("SECRET is required for jwt. please add SECRET in .env")
+}
+
+app.use(swagger({
+    documentation: {
+        info: {
+            title: 'Blog Documentation',
+            version: '1.0.0'
+        },
+        tags: Object.values(DOCUMENTATION_TAGS)
+    }
+}))
+app.use(jwt({
+    name: 'jwt',
+    secret: SECRET,
+    exp: '7d'
+}))
 app.use(html())
 app.use(staticPlugin())
 
@@ -26,11 +49,12 @@ try {
     }
 }
 
+app.use(userRoutes)
 app.use(postRoutes)
 app.use(categoryRoutes)
 app.use(viewRoutes)
 
 
 app.listen(PORT, () => {
-    console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
+    console.log(`🦊 Blog is running at ${app.server?.hostname}:${PORT}`);
 });

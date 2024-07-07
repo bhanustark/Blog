@@ -54,3 +54,9 @@ export const categories = [
 export const postPerPage = 10
 
 export const defaultPostImage = "/public/default.webp"
+
+export const DOCUMENTATION_TAGS = {
+    POST: { name: 'Post', description: 'Post endpoints' },
+    USER: { name: 'User', description: 'User endpoints' },
+    CATEGORY: { name: 'Category', description: 'Category endpoints' }
+}

@@ -1,5 +1,22 @@
 import * as mongoose from "mongoose"
 
+export const USERFIELDS = {
+    ID: "_id",
+    NAME: "name",
+    EMAIL: "email",
+    PASSWORD: "password",
+    BIO: "bio",
+    ROLE: "role"
+}
+
+export enum UserRole {
+    Admin = "admin",
+    User = "user"
+}
+
+export const jwtFields = [USERFIELDS.ID, USERFIELDS.EMAIL, USERFIELDS.ROLE]
+export const publicFields = [USERFIELDS.ID, USERFIELDS.NAME, USERFIELDS.BIO]
+
 const UserSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -9,7 +26,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    },
+    }, 
     name: {
         type: String,
     },
@@ -18,8 +35,8 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'user'],
-        default: "user",
+        enum: [UserRole.Admin, UserRole.User],
+        default: UserRole.User,
     }
 }, {
     timestamps: true
