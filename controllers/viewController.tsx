@@ -1,7 +1,8 @@
-import { postPerPage } from "../constant";
+import { POST_PER_PAGE } from "../constant";
 import type { ISEOMeta } from "../interfaces/SEOInterfaces";
 import { Category } from "../models/Category";
 import { Post } from "../models/Post"
+import postService from "../services/postService";
 import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
 import PostPage from "../views/PostPage";
@@ -10,7 +11,7 @@ const { APP_NAME } = Bun.env;
 
 export default {
     home: async () => {
-        const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage);
+        const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE);
         const Component = await HomePage(posts)
         const seo_meta: ISEOMeta = {
             title: APP_NAME,
@@ -19,7 +20,7 @@ export default {
     },
     page: async ({ params: { pageNumber } }: { params: { pageNumber: string } }) => {
         if (pageNumber) {
-            const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
+            const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE).skip(POST_PER_PAGE * Number(pageNumber))
             const Component = await HomePage(posts, pageNumber)
             const seo_meta: ISEOMeta = {
                 title: `${APP_NAME} - Page ${pageNumber}`,
@@ -34,7 +35,7 @@ export default {
         if (category) {
             const categoryObject = await Category.findOne({ slug: category });
             if (categoryObject) {
-                const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(postPerPage).skip(postPerPage * Number(pageNumber))
+                const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE).skip(POST_PER_PAGE * Number(pageNumber))
                 const Component = await HomePage(posts, pageNumber, categoryObject)
                 const seo_meta: ISEOMeta = {
                     title: `${APP_NAME} - ${categoryObject.title}`,
@@ -48,7 +49,7 @@ export default {
         }
     },
     post: async ({ params: { slug } }: { params: { slug: string } }) => {
-        const post = await Post.findOne({ slug })
+        const post = await postService.getPostBySlug(slug)
         if (post) {
             const Component = await PostPage(post)
             const seo_meta: ISEOMeta = {

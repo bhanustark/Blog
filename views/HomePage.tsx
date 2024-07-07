@@ -1,4 +1,4 @@
-import { defaultPostImage } from "../constant"
+import { DEFAULT_POST_IMAGE } from "../constant"
 import type { Category } from "../models/Category"
 import type { Post } from "../models/Post"
 
@@ -23,7 +23,7 @@ const HomePage = (posts: Post[], pageNumber?: string, category?: Category) => {
                                     height={300}
                                     width={400}
                                     class="h-60 w-[100%]"
-                                    src={post?.image ? post?.image : defaultPostImage}
+                                    src={post?.image ? post?.image : DEFAULT_POST_IMAGE}
                                     alt={post?.title} />
                             </figure>
                             <div class="card-body">

@@ -1,10 +1,10 @@
-import { defaultPostImage } from "../constant";
+import { DEFAULT_POST_IMAGE } from "../constant";
 import type { Post } from "../models/Post";
 
 export default function PostPage(post: Post) {
     return (
         <div class="flex justify-center items-center flex-col">
-            <img src={post?.image ? post?.image : defaultPostImage} alt={post?.title} class="object-cover max-w-5xl w-full rounded-lg" />
+            <img src={post?.image ? post?.image : DEFAULT_POST_IMAGE} alt={post?.title} class="object-cover max-w-5xl w-full rounded-lg" />
             <div class="hero">
                 <div class="hero-content">
                     <div class="max-w-2xl">
