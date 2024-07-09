@@ -16,19 +16,21 @@ const HomePage = (posts: Post[], pageNumber?: string, category?: Category) => {
         <div class="flex flex-col justify-center items-center">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: "20px", marginTop: "20px" }}>
                 {posts?.map(post => (
-                    <a href={`/${post?.slug}`}>
-                        <div class="card card-compact bg-base-100 w-auto max-w-96 h-96 shadow-xl">
+                    <a href={`/${post?.slug}`} class="p-4">
+                        <div class="card bg-base-100 w-auto max-w-96 h-96 shadow-xl">
                             <figure>
-                                <img
-                                    height={300}
-                                    width={400}
-                                    class="h-60 w-[100%]"
-                                    src={post?.image ? post?.image : DEFAULT_POST_IMAGE}
-                                    alt={post?.title} />
+                                <object data={post?.image ? post?.image : DEFAULT_POST_IMAGE} type="image/webp" class="h-60 w-[100%]">
+                                    <img
+                                        height={300}
+                                        width={400}
+                                        class="h-60 w-[100%]"
+                                        src="/public/default.webp"
+                                        alt={post?.title} />
+                                </object>
                             </figure>
                             <div class="card-body">
-                                <h2 class="card-title text-lg truncateText">{post?.title}</h2>
-                                <p>Posted on {new Date(post.createdAt).toLocaleDateString()}</p>
+                                <h2 class="card-title text-base truncateText">{post?.title}</h2>
+                                <p>Posted on {new Date(post.createdAt).toDateString()}</p>
                             </div>
                         </div>
                     </a>
