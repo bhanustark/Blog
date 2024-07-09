@@ -14,10 +14,10 @@ const HomePage = (posts: Post[], pageNumber?: string, category?: Category) => {
     }
     return (
         <div class="flex flex-col justify-center items-center">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: "20px", marginTop: "20px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: "10px", marginTop: "10px" }}>
                 {posts?.map(post => (
-                    <a href={`/${post?.slug}`} class="p-4">
-                        <div class="card bg-base-100 w-auto max-w-96 h-96 shadow-xl">
+                    <a href={`/${post?.slug}`} class="p-2">
+                        <div class="card w-auto max-w-96 h-92 shadow-xl bg-base-200">
                             <figure>
                                 <object data={post?.image ? post?.image : DEFAULT_POST_IMAGE} type="image/webp" class="h-60 w-[100%]">
                                     <img
@@ -28,7 +28,7 @@ const HomePage = (posts: Post[], pageNumber?: string, category?: Category) => {
                                         alt={post?.title} />
                                 </object>
                             </figure>
-                            <div class="card-body">
+                            <div class="px-4 py-2 gap-0">
                                 <h2 class="card-title text-base truncateText">{post?.title}</h2>
                                 <p>Posted on {new Date(post.createdAt).toDateString()}</p>
                             </div>

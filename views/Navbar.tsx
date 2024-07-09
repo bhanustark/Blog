@@ -4,7 +4,7 @@ const { APP_NAME } = Bun.env;
 const Navbar = async () => {
     const categories = await categoryService.getCategories()
     return (
-        <div class="navbar bg-base-100">
+        <div class="navbar bg-base-200 sticky top-0 z-10">
             <div class="navbar-start">
                 <div class="dropdown">
                     <div tabindex={0} role="button" class="btn btn-ghost 2xl:hidden">
@@ -23,7 +23,7 @@ const Navbar = async () => {
                     </div>
                     <ul
                         tabindex={0}
-                        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                        class="menu menu-sm dropdown-content bg-base-200 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                         {categories.map(category => (
                             <li><a href={`/category/${category.slug}/`}>{category.title}</a></li>
                         ))}
