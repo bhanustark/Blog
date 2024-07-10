@@ -12,6 +12,8 @@ ANDROID_APP_ID=in.publicapp.android
 ANDROID_APP_SHA256=9F:38:3B:85:34:AF:FB:A7:43:EA:C4:E2:39:38:3F:34:FC:E2:F7:A7:EA:DE:3C:02:B6:15:AB:8E:CB:8D:DB:C8
 GOOGLE_ANALYTICS_CODE=G-B62PJ5TRQD
 SECRET=k3d7snDw37shdfjkDFHE3ed
+APP_ROOT=https://publicapp.in #Your root url
+SITEMAP_TOTAL_PAGES=5 #Total sitemaps that can be generated if one page will have 1000 posts
 ```
 
 To install dependencies:

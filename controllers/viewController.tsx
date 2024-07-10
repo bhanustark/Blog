@@ -1,4 +1,4 @@
-import { POST_PER_PAGE } from "../constant";
+import { POST_PER_PAGE, POST_PER_PAGE_SITEMAP } from "../constant";
 import type { ISEOMeta } from "../interfaces/SEOInterfaces";
 import { Category } from "../models/Category";
 import { Post } from "../models/Post"
@@ -6,6 +6,7 @@ import postService from "../services/postService";
 import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
 import PostPage from "../views/PostPage";
+import Sitemap from "../views/Sitemap";
 
 const { APP_NAME } = Bun.env;
 
@@ -61,5 +62,15 @@ export default {
         } else {
             throw new Error("post not found")
         }
+    },
+    sitemap: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
+        const posts = await Post.find().limit(POST_PER_PAGE_SITEMAP).skip(POST_PER_PAGE_SITEMAP * Number(pageNumber))
+        set.headers['content-type'] = "application/xml"
+        return await Sitemap(posts)
+    },
+    sitemapNews: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
+        const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE_SITEMAP).skip(POST_PER_PAGE_SITEMAP * Number(pageNumber))
+        set.headers['content-type'] = "application/xml"
+        return await Sitemap(posts)
     }
 }

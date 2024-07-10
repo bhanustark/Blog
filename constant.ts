@@ -1,4 +1,5 @@
 export const POST_PER_PAGE = 10
+export const POST_PER_PAGE_SITEMAP = 1000
 
 //Cache post by slug in memory for one hour
 export const CACHE_POST_BY_SLUG_TTL = 60 * 60 * 1000;
