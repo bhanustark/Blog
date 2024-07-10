@@ -1,6 +1,6 @@
 import type { Post } from "../models/Post";
 
-export default async function Sitemap(posts: Post[]) {
+export default async function SitemapNews(posts: Post[]) {
     const { APP_ROOT, APP_NAME } = Bun.env
     return (
         `<?xml version="1.0" encoding="UTF-8" ?>
@@ -19,8 +19,8 @@ export default async function Sitemap(posts: Post[]) {
                                 <![CDATA[ ${post.title} ]]>
                             </news:title>
                             ${post?.keywords ?
-                            `    <news: keywords >
-                                    <![CDATA[${post.keywords} ]]>
+                            `    <news:keywords>
+                                    <![CDATA[ ${post.keywords} ]]>
                                 </news:keywords>`
                             : ''}
                         </news:news>

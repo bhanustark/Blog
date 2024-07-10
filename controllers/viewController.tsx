@@ -7,6 +7,7 @@ import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
 import PostPage from "../views/PostPage";
 import Sitemap from "../views/Sitemap";
+import SitemapNews from "../views/SitemapNews";
 
 const { APP_NAME } = Bun.env;
 
@@ -71,6 +72,6 @@ export default {
     sitemapNews: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
         const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE_SITEMAP).skip(POST_PER_PAGE_SITEMAP * Number(pageNumber))
         set.headers['content-type'] = "application/xml"
-        return await Sitemap(posts)
+        return await SitemapNews(posts)
     }
 }
