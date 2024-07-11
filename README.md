@@ -14,6 +14,10 @@ GOOGLE_ANALYTICS_CODE=G-B62PJ5TRQD
 SECRET=k3d7snDw37shdfjkDFHE3ed
 APP_ROOT=https://publicapp.in #Your root url
 SITEMAP_TOTAL_PAGES=5 #Total sitemaps that can be generated if one page will have 1000 posts
+APP_CONTACT_EMAIL=contact@publicapp.in
+APP_DESCRIPTION=Public App is local news app, that brings to you all the latest updates of your city through short news.
+APP_COPYRIGHT=All rights reserved 2024, Public App
+DEFAULT_USER_ID=ad664548sfweffe4564sfdsfdsa54f
 ```
 
 To install dependencies:

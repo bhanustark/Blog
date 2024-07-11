@@ -1,15 +1,18 @@
-import { POST_PER_PAGE, POST_PER_PAGE_SITEMAP } from "../constant";
+import { DEFAULT_POST_IMAGE, POST_PER_PAGE, POST_PER_PAGE_SITEMAP } from "../constant";
 import type { ISEOMeta } from "../interfaces/SEOInterfaces";
 import { Category } from "../models/Category";
 import { Post } from "../models/Post"
+import { User } from "../models/User";
 import postService from "../services/postService";
+import { getRSSFeed } from "../utils/utils";
 import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
 import PostPage from "../views/PostPage";
 import Sitemap from "../views/Sitemap";
 import SitemapNews from "../views/SitemapNews";
+import { Feed } from "feed";
 
-const { APP_NAME } = Bun.env;
+const { APP_NAME, APP_ROOT, APP_CONTACT_EMAIL, APP_DESCRIPTION, APP_COPYRIGHT, DEFAULT_USER_ID } = Bun.env;
 
 export default {
     home: async () => {
@@ -73,5 +76,28 @@ export default {
         const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE_SITEMAP).skip(POST_PER_PAGE_SITEMAP * Number(pageNumber))
         set.headers['content-type'] = "application/xml"
         return await SitemapNews(posts)
+    },
+    getCategoryRSSFeed: async ({ params: { category }, set }: { params: { category: string }, set: any }) => {
+        const categoryObject = await Category.findOne({ slug: category });
+        const defaultUser = await User.findById(DEFAULT_USER_ID)
+        if (categoryObject && defaultUser) {
+            const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ createdAt: -1 }).limit(POST_PER_PAGE_SITEMAP)
+            const feed = getRSSFeed(posts, defaultUser, categoryObject)
+            set.headers['content-type'] = "application/xml"
+            return feed.rss2()
+        } else {
+            throw new Error("wrong category id")
+        }
+    },
+    getRSSFeed: async ({ set }: { set: any }) => {
+        const defaultUser = await User.findById(DEFAULT_USER_ID)
+        if (defaultUser) {
+            const posts = await Post.find().sort({ createdAt: -1 }).limit(POST_PER_PAGE_SITEMAP)
+            const feed = getRSSFeed(posts, defaultUser)
+            set.headers['content-type'] = "application/xml"
+            return feed.rss2()
+        } else {
+            throw new Error("Default user is not set")
+        }
     }
 }
