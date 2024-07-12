@@ -1,4 +1,4 @@
-import { DEFAULT_POST_IMAGE, POST_PER_PAGE, POST_PER_PAGE_SITEMAP } from "../constant";
+import { DEFAULT_POST_IMAGE, POST_PER_PAGE, POST_PER_PAGE_SITEMAP, RSS_FEED_PER_PAGE } from "../constant";
 import type { ISEOMeta } from "../interfaces/SEOInterfaces";
 import { Category } from "../models/Category";
 import { Post } from "../models/Post"
@@ -81,7 +81,7 @@ export default {
         const categoryObject = await Category.findOne({ slug: category });
         const defaultUser = await User.findById(DEFAULT_USER_ID)
         if (categoryObject && defaultUser) {
-            const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ createdAt: -1 }).limit(POST_PER_PAGE_SITEMAP)
+            const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
             const feed = getRSSFeed(posts, defaultUser, categoryObject)
             set.headers['content-type'] = "application/xml"
             return feed.rss2()
@@ -92,7 +92,7 @@ export default {
     getRSSFeed: async ({ set }: { set: any }) => {
         const defaultUser = await User.findById(DEFAULT_USER_ID)
         if (defaultUser) {
-            const posts = await Post.find().sort({ createdAt: -1 }).limit(POST_PER_PAGE_SITEMAP)
+            const posts = await Post.find().sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
             const feed = getRSSFeed(posts, defaultUser)
             set.headers['content-type'] = "application/xml"
             return feed.rss2()

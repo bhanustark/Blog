@@ -1,4 +1,5 @@
 export const POST_PER_PAGE = 10
+export const RSS_FEED_PER_PAGE = 50
 export const POST_PER_PAGE_SITEMAP = 1000
 
 //Cache post by slug in memory for one hour
