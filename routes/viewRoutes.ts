@@ -30,5 +30,6 @@ Sitemap: ${APP_ROOT}/sitemaps-news/0/sitemap.xml`)
      app.get("/sitemaps-news/:pageNumber/sitemap.xml", viewController.sitemapNews)
      app.get("/category/:category/feed/gn", viewController.getCategoryRSSFeed)
      app.get("/feed/gn", viewController.getRSSFeed)
+     app.get("/login", viewController.login)
      return app
 }

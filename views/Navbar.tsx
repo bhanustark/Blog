@@ -39,7 +39,7 @@ const Navbar = async () => {
                 </ul>
             </div>
             <div class="navbar-end">
-                {/* <button className="btn">About</button> */}
+                <a class="btn" href="/login">Account</a>
             </div>
         </div>
     )

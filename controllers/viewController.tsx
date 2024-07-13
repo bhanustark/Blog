@@ -7,6 +7,7 @@ import postService from "../services/postService";
 import { getRSSFeed } from "../utils/utils";
 import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
+import LoginPage from "../views/login/LoginPage";
 import PostPage from "../views/PostPage";
 import Sitemap from "../views/Sitemap";
 import SitemapNews from "../views/SitemapNews";
@@ -99,5 +100,14 @@ export default {
         } else {
             throw new Error("Default user is not set")
         }
+    },
+    login: async ({ set }: { set: any }) => {
+        const seo_meta: ISEOMeta = {
+            title: "Login",
+            description: "Login to Public App",
+            keywords: "public app login, publicapp login"
+        }
+        const Component = await LoginPage()
+        return layout(seo_meta, Component)
     }
 }
