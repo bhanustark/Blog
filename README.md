@@ -1,7 +1,7 @@
 # Blog
 
 Create .env file in project root directory and add mongo uri and secret
-PORT, ANDROID_APP_ID, ANDROID_APP_SHA256, MONGO_URI_DEV fields are optional
+PORT, ANDROID_APP_ID, ANDROID_APP_SHA256, MONGO_URI_DEV fields are optional and rest are mandatory
 
 ```bash
 APP_NAME=Public App
