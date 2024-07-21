@@ -25,7 +25,7 @@ const googleAnalyticsJSString = `
 
                 gtag('config', '${GOOGLE_ANALYTICS_CODE}');
 `
-const Layout = (meta: ISEOMeta, Component: string) => (
+const Layout = (meta: ISEOMeta, Component: string, enableDashRoutes?: boolean) => (
     <html lang="en">
         <head>
             <meta charset="UTF-8" />
@@ -51,7 +51,7 @@ const Layout = (meta: ISEOMeta, Component: string) => (
             }
         </head>
         <body>
-            <Navbar />
+            <Navbar enableDashRoutes={enableDashRoutes} />
             {Component}
             <Footer />
         </body>

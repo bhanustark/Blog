@@ -1,5 +1,5 @@
 import { t } from "elysia"
-import { authRequired } from "../middlewares/auth"
+import { adminAuthRequired, authRequired } from "../middlewares/auth"
 import { DOCUMENTATION_TAGS } from "../constant"
 
 const loginUserType = {
@@ -56,7 +56,7 @@ const updateUserRouteSchema = {
         tags: [DOCUMENTATION_TAGS.USER.name]
     },
     beforeHandle: async (args: any) => {
-        await authRequired(args)
+        await adminAuthRequired(args)
     }
 }
 

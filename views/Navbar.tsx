@@ -1,8 +1,10 @@
 import categoryService from "../services/categoryService";
 const { APP_NAME } = Bun.env;
+import { DASH_ROUTES } from "../constant";
 
-const Navbar = async () => {
+const Navbar = async ({enableDashRoutes}: {enableDashRoutes?: boolean}) => {
     const categories = await categoryService.getCategories()
+    const routes = enableDashRoutes ? DASH_ROUTES : categories
     return (
         <div class="navbar bg-base-200 sticky top-0 z-10">
             <div class="navbar-start">
@@ -24,8 +26,8 @@ const Navbar = async () => {
                     <ul
                         tabindex={0}
                         class="menu menu-sm dropdown-content bg-base-200 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        {categories.map(category => (
-                            <li><a href={`/category/${category.slug}/`}>{category.title}</a></li>
+                        {routes.map(route => (
+                            <li><a href={enableDashRoutes ? route.slug :`/category/${route.slug}/`}>{route.title}</a></li>
                         ))}
                     </ul>
                 </div>
@@ -33,8 +35,8 @@ const Navbar = async () => {
             </div>
             <div class="navbar-center hidden 2xl:flex">
                 <ul class="menu menu-horizontal px-1">
-                    {categories.map(category => (
-                        <li><a href={`/category/${category.slug}/`}>{category.title}</a></li>
+                    {routes.map(route => (
+                        <li><a href={enableDashRoutes ? route.slug :`/category/${route.slug}/`}>{route.title}</a></li>
                     ))}
                 </ul>
             </div>

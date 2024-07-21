@@ -18,6 +18,7 @@ APP_CONTACT_EMAIL=contact@publicapp.in
 APP_DESCRIPTION=Public App is local news app, that brings to you all the latest updates of your city through short news.
 APP_COPYRIGHT=All rights reserved 2024, Public App
 DEFAULT_USER_ID=ad664548sfweffe4564sfdsfdsa54f
+ENABLE_REGISTRATION=true #allow user registration
 ```
 
 To install dependencies:

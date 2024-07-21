@@ -1,5 +1,6 @@
 import type Elysia from "elysia";
 import viewController from "../controllers/viewController";
+import viewRoutesSchemas from "../routesSchemas/viewRoutesSchemas";
 const { ANDROID_APP_ID, ANDROID_APP_SHA256, APP_ROOT, SITEMAP_TOTAL_PAGES } = Bun.env
 export default async function (app: Elysia) {
      if (ANDROID_APP_ID && ANDROID_APP_SHA256) {
@@ -31,5 +32,8 @@ Sitemap: ${APP_ROOT}/sitemaps-news/0/sitemap.xml`)
      app.get("/category/:category/feed/gn", viewController.getCategoryRSSFeed)
      app.get("/feed/gn", viewController.getRSSFeed)
      app.get("/login", viewController.login)
+     app.post("/login", viewController.loginPost, {type: 'formdata'})
+     app.get("/dash", viewController.dashboard)
+     app.get("/dash/posts", viewController.dashboardPosts, viewRoutesSchemas.getAllPostsRouteSchema)
      return app
 }

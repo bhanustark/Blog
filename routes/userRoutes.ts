@@ -8,5 +8,6 @@ export default async function (app: Elysia) {
     app.post(`${userRoutePath}signup`, userController.signup, userRoutesSchemas.signUpUserRouteSchema)
     app.post(`${userRoutePath}login`, userController.login, userRoutesSchemas.loginUserRouteSchema)
     app.get(`${userRoutePath}:userId`, userController.getUserById, userRoutesSchemas.getUserRouteSchema)
+    app.patch(`${userRoutePath}:userId`, userController.updateUserById, userRoutesSchemas.updateUserRouteSchema)
     return app
 }

@@ -15,3 +15,18 @@ export const DOCUMENTATION_TAGS = {
     USER: { name: 'User', description: 'User endpoints' },
     CATEGORY: { name: 'Category', description: 'Category endpoints' }
 }
+
+export const DASH_ROUTES = [
+    {
+        slug: "/dash",
+        title: "Dashboard"
+    },
+    {
+        slug: "/dash/posts",
+        title: "Posts"
+    },
+    {
+        slug: "/dash/settings",
+        title: "Settings"
+    }
+]
