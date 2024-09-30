@@ -18,6 +18,8 @@ APP_CONTACT_EMAIL=contact@publicapp.in
 APP_DESCRIPTION=Public App is local news app, that brings to you all the latest updates of your city through short news.
 APP_COPYRIGHT=All rights reserved 2024, Public App
 DEFAULT_USER_ID=ad664548sfweffe4564sfdsfdsa54f
+ADSENSE_PUB_CODE="client=ca-pub-523542364354534"
+ADS_TXT="google.com, pub-523542364354534, DIRECT, d05c43aed0942ga0"
 ```
 
 To install dependencies:

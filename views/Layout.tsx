@@ -2,7 +2,7 @@ import type { ISEOMeta } from "../interfaces/SEOInterfaces"
 import Footer from "./Footer"
 import Navbar from "./Navbar"
 
-const { GOOGLE_ANALYTICS_CODE } = Bun.env
+const { GOOGLE_ANALYTICS_CODE, ADSENSE_PUB_CODE } = Bun.env
 
 const style = `
     p {
@@ -49,6 +49,11 @@ const Layout = (meta: ISEOMeta, Component: string) => (
                 </>
                 : <></>
             }
+            {ADSENSE_PUB_CODE ? <>
+                <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?${ADSENSE_PUB_CODE}`}
+                    crossorigin="anonymous"></script>
+            </> :
+                <></>}
         </head>
         <body>
             <Navbar />
