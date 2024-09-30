@@ -1,12 +1,12 @@
 import { Feed } from "feed";
-import type { Post } from "../models/Post";
+import type { Blog } from "../models/Blog";
 import type { Category } from "../models/Category";
 import type { User } from "../models/User";
-import { DEFAULT_POST_IMAGE } from "../constant";
+import { DEFAULT_BLOG_IMAGE } from "../constant";
 
 const { APP_NAME, APP_ROOT, APP_CONTACT_EMAIL, APP_DESCRIPTION, APP_COPYRIGHT, DEFAULT_USER_ID } = Bun.env;
 
-export const getRSSFeed = (posts: Post[], defaultUser: User, categoryObject?: Category) => {
+export const getRSSFeed = (blogs: Blog[], defaultUser: User, categoryObject?: Category) => {
     if (APP_NAME && APP_ROOT && APP_COPYRIGHT) {
         const feed = new Feed({
             title: APP_NAME,
@@ -28,13 +28,13 @@ export const getRSSFeed = (posts: Post[], defaultUser: User, categoryObject?: Ca
             }
         })
 
-        posts.map(post => {
+        blogs.map(blog => {
             feed.addItem({
-                title: post.title,
-                id: `${APP_ROOT}/${post.slug}`,
-                link: `${APP_ROOT}/${post.slug}`,
-                description: post.description ? post.description : APP_DESCRIPTION,
-                content: post.content,
+                title: blog.title,
+                id: `${APP_ROOT}/${blog.slug}`,
+                link: `${APP_ROOT}/${blog.slug}`,
+                description: blog.description ? blog.description : APP_DESCRIPTION,
+                content: blog.content,
                 author: [
                     {
                         name: defaultUser?.name || APP_NAME,
@@ -49,8 +49,8 @@ export const getRSSFeed = (posts: Post[], defaultUser: User, categoryObject?: Ca
                         link: `${APP_ROOT}/profile/${DEFAULT_USER_ID}`
                     }
                 ],
-                date: new Date(post.createdAt),
-                image: post.image ? post.image : `${APP_ROOT}/${DEFAULT_POST_IMAGE}`
+                date: new Date(blog.createdAt),
+                image: blog.image ? blog.image : `${APP_ROOT}/${DEFAULT_BLOG_IMAGE}`
             });
         });
 

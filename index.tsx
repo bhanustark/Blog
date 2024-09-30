@@ -4,7 +4,7 @@ import { html } from "@elysiajs/html";
 import { staticPlugin } from '@elysiajs/static'
 import viewRoutes from "./routes/viewRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
-import postRoutes from "./routes/postRoutes";
+import blogRoutes from "./routes/blogtRoutes";
 import { swagger } from '@elysiajs/swagger'
 import userRoutes from "./routes/userRoutes";
 import { jwt } from '@elysiajs/jwt'
@@ -53,7 +53,7 @@ app.use(html())
 app.use(staticPlugin())
 
 app.use(userRoutes)
-app.use(postRoutes)
+app.use(blogRoutes)
 app.use(categoryRoutes)
 app.use(viewRoutes)
 

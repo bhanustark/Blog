@@ -1,13 +1,13 @@
-import { DEFAULT_POST_IMAGE, POST_PER_PAGE, POST_PER_PAGE_SITEMAP, RSS_FEED_PER_PAGE } from "../constant";
+import { DEFAULT_BLOG_IMAGE, BLOG_PER_PAGE, BLOG_PER_PAGE_SITEMAP, RSS_FEED_PER_PAGE } from "../constant";
 import type { ISEOMeta } from "../interfaces/SEOInterfaces";
 import { Category } from "../models/Category";
-import { Post } from "../models/Post"
+import { Blog } from "../models/Blog"
 import { User } from "../models/User";
-import postService from "../services/postService";
+import blogService from "../services/blogService";
 import { getRSSFeed } from "../utils/utils";
 import HomePage from "../views/HomePage";
 import layout from "../views/Layout";
-import PostPage from "../views/PostPage";
+import BlogPage from "../views/BlogPage";
 import Sitemap from "../views/Sitemap";
 import SitemapNews from "../views/SitemapNews";
 import { Feed } from "feed";
@@ -16,8 +16,8 @@ const { APP_NAME, APP_ROOT, APP_CONTACT_EMAIL, APP_DESCRIPTION, APP_COPYRIGHT, D
 
 export default {
     home: async () => {
-        const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE);
-        const Component = await HomePage(posts)
+        const blogs = await Blog.find().sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE);
+        const Component = await HomePage(blogs)
         const seo_meta: ISEOMeta = {
             title: APP_NAME,
         }
@@ -25,8 +25,8 @@ export default {
     },
     page: async ({ params: { pageNumber } }: { params: { pageNumber: string } }) => {
         if (pageNumber) {
-            const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE).skip(POST_PER_PAGE * Number(pageNumber))
-            const Component = await HomePage(posts, pageNumber)
+            const blogs = await Blog.find().sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE).skip(BLOG_PER_PAGE * Number(pageNumber))
+            const Component = await HomePage(blogs, pageNumber)
             const seo_meta: ISEOMeta = {
                 title: `${APP_NAME} - Page ${pageNumber}`,
             }
@@ -40,8 +40,8 @@ export default {
         if (category) {
             const categoryObject = await Category.findOne({ slug: category });
             if (categoryObject) {
-                const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE).skip(POST_PER_PAGE * Number(pageNumber))
-                const Component = await HomePage(posts, pageNumber, categoryObject)
+                const blogs = await Blog.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE).skip(BLOG_PER_PAGE * Number(pageNumber))
+                const Component = await HomePage(blogs, pageNumber, categoryObject)
                 const seo_meta: ISEOMeta = {
                     title: `${APP_NAME} - ${categoryObject.title}`,
                 }
@@ -53,36 +53,36 @@ export default {
             throw new Error("category is missing")
         }
     },
-    post: async ({ params: { slug } }: { params: { slug: string } }) => {
-        const post = await postService.getPostBySlug(slug)
-        if (post) {
-            const Component = await PostPage(post)
+    blog: async ({ params: { slug } }: { params: { slug: string } }) => {
+        const blog = await blogService.getBlogBySlug(slug)
+        if (blog) {
+            const Component = await BlogPage(blog)
             const seo_meta: ISEOMeta = {
-                title: post?.title,
-                description: post?.description,
-                keywords: post?.keywords
+                title: blog?.title,
+                description: blog?.description,
+                keywords: blog?.keywords
             }
             return layout(seo_meta, Component)
         } else {
-            throw new Error("post not found")
+            throw new Error("blog not found")
         }
     },
     sitemap: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
-        const posts = await Post.find().limit(POST_PER_PAGE_SITEMAP).skip(POST_PER_PAGE_SITEMAP * Number(pageNumber))
+        const blogs = await Blog.find().limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
         set.headers['content-type'] = "application/xml"
-        return await Sitemap(posts)
+        return await Sitemap(blogs)
     },
     sitemapNews: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
-        const posts = await Post.find().sort({ 'updatedAt': -1 }).limit(POST_PER_PAGE_SITEMAP).skip(POST_PER_PAGE_SITEMAP * Number(pageNumber))
+        const blogs = await Blog.find().sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
         set.headers['content-type'] = "application/xml"
-        return await SitemapNews(posts)
+        return await SitemapNews(blogs)
     },
     getCategoryRSSFeed: async ({ params: { category }, set }: { params: { category: string }, set: any }) => {
         const categoryObject = await Category.findOne({ slug: category });
         const defaultUser = await User.findById(DEFAULT_USER_ID)
         if (categoryObject && defaultUser) {
-            const posts = await Post.find({ categories: { $in: [categoryObject._id] } }).sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
-            const feed = getRSSFeed(posts, defaultUser, categoryObject)
+            const blogs = await Blog.find({ categories: { $in: [categoryObject._id] } }).sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
+            const feed = getRSSFeed(blogs, defaultUser, categoryObject)
             set.headers['content-type'] = "application/xml"
             return feed.rss2()
         } else {
@@ -92,8 +92,8 @@ export default {
     getRSSFeed: async ({ set }: { set: any }) => {
         const defaultUser = await User.findById(DEFAULT_USER_ID)
         if (defaultUser) {
-            const posts = await Post.find().sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
-            const feed = getRSSFeed(posts, defaultUser)
+            const blogs = await Blog.find().sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
+            const feed = getRSSFeed(blogs, defaultUser)
             set.headers['content-type'] = "application/xml"
             return feed.rss2()
         } else {

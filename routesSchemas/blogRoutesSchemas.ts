@@ -2,7 +2,7 @@ import { t } from "elysia"
 import { DOCUMENTATION_TAGS } from "../constant"
 import { authRequired } from "../middlewares/auth"
 
-const addPostType = {
+const addBlogType = {
     title: t.Required(t.String({
         minLength: 5,
         maxLength: 100
@@ -30,26 +30,26 @@ const addPostType = {
     }))),
 }
 
-const addPostRouteSchema = {
-    body: t.Object(addPostType,
+const addBlogRouteSchema = {
+    body: t.Object(addBlogType,
         {
             description: 'Title, slug, and content fields are required and description, keywords, image, and categories are optional fields.'
         }
     ),
     detail: {
-        summary: 'Add post',
-        tags: [DOCUMENTATION_TAGS.POST.name]
+        summary: 'Add blog',
+        tags: [DOCUMENTATION_TAGS.BLOG.name]
     },
     beforeHandle: async (args: any) => {
         await authRequired(args)
     }
 }
 
-const getPostsPaginatedRouteSchema = {
+const getBlogsPaginatedRouteSchema = {
     detail: {
-        summary: 'Get posts paginated',
-        tags: [DOCUMENTATION_TAGS.POST.name]
+        summary: 'Get blogs paginated',
+        tags: [DOCUMENTATION_TAGS.BLOG.name]
     }
 }
 
-export default { addPostRouteSchema, getPostsPaginatedRouteSchema }
+export default { addBlogRouteSchema, getBlogsPaginatedRouteSchema }
