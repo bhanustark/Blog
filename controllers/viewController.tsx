@@ -67,6 +67,21 @@ export default {
             throw new Error("blog not found")
         }
     },
+    blogCleanCache: async ({ params: { slug } }: { params: { slug: string } }) => {
+        await blogService.expireBlogBySlug(slug)
+        const blog = await blogService.getBlogBySlug(slug)
+        if (blog) {
+            const Component = await BlogPage(blog)
+            const seo_meta: ISEOMeta = {
+                title: blog?.title,
+                description: blog?.description,
+                keywords: blog?.keywords
+            }
+            return layout(seo_meta, Component)
+        } else {
+            throw new Error("blog not found")
+        }
+    },
     sitemap: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
         const blogs = await Blog.find().limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
         set.headers['content-type'] = "application/xml"

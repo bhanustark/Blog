@@ -28,6 +28,7 @@ ${new Array(Number(SITEMAP_TOTAL_PAGES)).fill(0).map((v,i) => `Sitemap: ${APP_RO
 Sitemap: ${APP_ROOT}/sitemaps-news/0/sitemap.xml`)
      app.get("/", viewController.home)
      app.get("/:slug", viewController.blog)
+     app.get("/:slug/cleanCache", viewController.blogCleanCache)
      app.get("/page/:pageNumber", viewController.page)
      app.get("/category/:category", viewController.category)
      app.get("/category/:category/page/:pageNumber", viewController.category)

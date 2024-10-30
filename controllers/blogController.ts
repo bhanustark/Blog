@@ -2,6 +2,7 @@ import { BLOG_PER_PAGE, BLOG_PER_PAGE_SITEMAP } from "../constant";
 import { Category } from "../models/Category";
 import { Blog } from "../models/Blog";
 import type { Blog as BlogType } from "../models/Blog";
+import blogService from "../services/blogService";
 
 export default {
     addBlog: async ({ jwt, body }: { jwt: any, body: BlogType }) => {
@@ -46,6 +47,14 @@ export default {
     getBlogBySlug: async ({ params: { slug } }: { params: { slug: string } }) => {
         if (slug) {
             const blog = await Blog.findOne({ slug })
+            return JSON.stringify(blog)
+        }
+        throw new Error("slug is required")
+    },
+    getBlogBySlugClearCache: async ({ params: { slug } }: { params: { slug: string } }) => {
+        if (slug) {
+            const blog = await Blog.findOne({ slug })
+            await blogService.expireBlogBySlug(slug)
             return JSON.stringify(blog)
         }
         throw new Error("slug is required")

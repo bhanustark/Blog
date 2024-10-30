@@ -45,6 +45,11 @@ export const BlogService = class {
             delete this.blogsWithSlugsExpiry[slug]
         })
     }
+    expireBlogBySlug = async (slug: string) => {
+        delete this.blogsWithSlugs[slug]
+        delete this.blogsWithSlugsExpiry[slug]
+        this.blogsWithSlugsCount += 1;
+    }
 }
 
 const blogService = new BlogService()
