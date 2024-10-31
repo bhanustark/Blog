@@ -8,7 +8,7 @@ export default async function Sitemap(blogs: Blog[]) {
                 ${blogs.map(blog =>
                     `<url>
                         <loc>${APP_ROOT}/${blog.slug}</loc>
-                        <lastmod>${blog.createdAt.toISOString()}</lastmod>
+                        <lastmod>${blog.updatedAt.toISOString()}</lastmod>
                         <changefreq>monthly</changefreq>
                         <priority>0.8</priority>
                     </url>`

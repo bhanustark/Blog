@@ -8,7 +8,7 @@ export default async function SitemapNews(blogs: Blog[]) {
                 ${blogs.map(blog =>
             `<url>
                         <loc>${APP_ROOT}/${blog.slug}</loc>
-                        <lastmod>${blog.createdAt.toISOString()}</lastmod>
+                        <lastmod>${blog.updatedAt.toISOString()}</lastmod>
                         <news:news>
                             <news:publication>
                                 <news:name>${APP_NAME}</news:name>
