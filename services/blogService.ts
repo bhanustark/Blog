@@ -25,7 +25,7 @@ export const BlogService = class {
             this.blogsWithSlugsExpiry[blogInCache.slug] = Date.now() + CACHE_BLOG_BY_SLUG_TTL
             return blogInCache
         } else {
-            const blog = await Blog.findOne({ slug })
+            const blog = await Blog.findOne({ slug, isDeleted: false })
             if (blog) {
                 this.blogsWithSlugs[blog.slug] = blog
                 this.blogsWithSlugsExpiry[blog.slug] = Date.now() + CACHE_BLOG_BY_SLUG_TTL

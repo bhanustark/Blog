@@ -16,7 +16,7 @@ const { APP_NAME, APP_ROOT, APP_CONTACT_EMAIL, APP_DESCRIPTION, APP_COPYRIGHT, D
 
 export default {
     home: async () => {
-        const blogs = await Blog.find().sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE);
+        const blogs = await Blog.find({ isDeleted: false }).sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE);
         const Component = await HomePage(blogs)
         const seo_meta: ISEOMeta = {
             title: APP_NAME,
@@ -25,7 +25,7 @@ export default {
     },
     page: async ({ params: { pageNumber } }: { params: { pageNumber: string } }) => {
         if (pageNumber) {
-            const blogs = await Blog.find().sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE).skip(BLOG_PER_PAGE * Number(pageNumber))
+            const blogs = await Blog.find({ isDeleted: false }).sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE).skip(BLOG_PER_PAGE * Number(pageNumber))
             const Component = await HomePage(blogs, pageNumber)
             const seo_meta: ISEOMeta = {
                 title: `${APP_NAME} - Page ${pageNumber}`,
@@ -40,7 +40,7 @@ export default {
         if (category) {
             const categoryObject = await Category.findOne({ slug: category });
             if (categoryObject) {
-                const blogs = await Blog.find({ categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE).skip(BLOG_PER_PAGE * Number(pageNumber))
+                const blogs = await Blog.find({ isDeleted: false, categories: { $in: [categoryObject._id] } }).sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE).skip(BLOG_PER_PAGE * Number(pageNumber))
                 const Component = await HomePage(blogs, pageNumber, categoryObject)
                 const seo_meta: ISEOMeta = {
                     title: `${APP_NAME} - ${categoryObject.title}`,
@@ -83,12 +83,12 @@ export default {
         }
     },
     sitemap: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
-        const blogs = await Blog.find().limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
+        const blogs = await Blog.find({ isDeleted: false }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
         set.headers['content-type'] = "application/xml"
         return await Sitemap(blogs)
     },
     sitemapNews: async ({ params: { pageNumber }, set }: { params: { pageNumber: string }, set: any }) => {
-        const blogs = await Blog.find().sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
+        const blogs = await Blog.find({ isDeleted: false }).sort({ 'updatedAt': -1 }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
         set.headers['content-type'] = "application/xml"
         return await SitemapNews(blogs)
     },
@@ -96,7 +96,7 @@ export default {
         const categoryObject = await Category.findOne({ slug: category });
         const defaultUser = await User.findById(DEFAULT_USER_ID)
         if (categoryObject && defaultUser) {
-            const blogs = await Blog.find({ categories: { $in: [categoryObject._id] } }).sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
+            const blogs = await Blog.find({ isDeleted: false, categories: { $in: [categoryObject._id] } }).sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
             const feed = getRSSFeed(blogs, defaultUser, categoryObject)
             set.headers['content-type'] = "application/xml"
             return feed.rss2()
@@ -107,7 +107,7 @@ export default {
     getRSSFeed: async ({ set }: { set: any }) => {
         const defaultUser = await User.findById(DEFAULT_USER_ID)
         if (defaultUser) {
-            const blogs = await Blog.find().sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
+            const blogs = await Blog.find({ isDeleted: false }).sort({ createdAt: -1 }).limit(RSS_FEED_PER_PAGE)
             const feed = getRSSFeed(blogs, defaultUser)
             set.headers['content-type'] = "application/xml"
             return feed.rss2()
