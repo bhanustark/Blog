@@ -15,7 +15,7 @@ export default {
         return blog
     },
     getBlogsPaginated: async ({ params }: { params?: { pageNumber?: string, category?: string } }) => {
-        let query = Blog.find()
+        let query = Blog.find({ isDeleted: false })
         if (params?.category) {
             const categoryObject = await Category.findOne({ slug: params.category });
             if (categoryObject)
@@ -28,32 +28,32 @@ export default {
         return await query
     },
     getBlogsForSitemap: async ({ params: { pageNumber } }: { params: { pageNumber: number } }) => {
-        const blogs = await Blog.find().limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
+        const blogs = await Blog.find({ isDeleted: false }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
         return blogs
     },
     getBlogsForNewsSitemap: async ({ params: { pageNumber, category } }: { params: { pageNumber: number, category?: string } }) => {
         if (category) {
             const categoryObject = await Category.findOne({ slug: category });
             if (categoryObject) {
-                const blogs = await Blog.find({ categories: { $in: [categoryObject._id] } }).sort({ 'createdAt': -1 }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
+                const blogs = await Blog.find({ isDeleted: false, categories: { $in: [categoryObject._id] } }).sort({ 'createdAt': -1 }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
                 return blogs
             } else {
                 throw new Error("Unknown category")
             }
         }
-        const blogs = await Blog.find().sort({ 'createdAt': -1 }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
+        const blogs = await Blog.find({ isDeleted: false }).sort({ 'createdAt': -1 }).limit(BLOG_PER_PAGE_SITEMAP).skip(BLOG_PER_PAGE_SITEMAP * Number(pageNumber))
         return blogs
     },
     getBlogBySlug: async ({ params: { slug } }: { params: { slug: string } }) => {
         if (slug) {
-            const blog = await Blog.findOne({ slug })
+            const blog = await Blog.findOne({ isDeleted: false, slug })
             return JSON.stringify(blog)
         }
         throw new Error("slug is required")
     },
     getBlogBySlugClearCache: async ({ params: { slug } }: { params: { slug: string } }) => {
         if (slug) {
-            const blog = await Blog.findOne({ slug })
+            const blog = await Blog.findOne({ isDeleted: false, slug })
             await blogService.expireBlogBySlug(slug)
             return JSON.stringify(blog)
         }
